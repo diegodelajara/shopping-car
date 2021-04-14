@@ -10,11 +10,11 @@ function cleanShoppingCar() {
 function drawShoppingCar() {
   cleanShoppingCar()
   const shoppingCar = getAllShoppingCarProducts()
-  if (shoppingCar.length) {
+  if (shoppingCar.length > 1) {
     shoppingCar.forEach(element => {
       buildShoppingCarItem(element)
     })
-  } else {
+  } else if (shoppingCar?.id) {
     buildShoppingCarItem(shoppingCar)
   }
 }
@@ -42,11 +42,11 @@ function updateShoppingCarProducts(array) {
   array.length
     ? array.map(item => addItem(item))
     : cleanShoppingCar()
- 
+    updateCount()
 }
 
 function updateCount() {
-  const total = getAllShoppingCarProducts().length
+  const total = getAllShoppingCarProducts().length || 1
   document.querySelector('.badge').innerText = total
 }
 
@@ -59,7 +59,6 @@ function showHideList(style) {
 function removeItem(product) {
   const total = getAllShoppingCarProducts()
   const newTotal = total.filter(item => item.id !== product.id)
-  console.log('%c newTotal', 'color:yellow', newTotal)
   localStorage.setItem('shoppingCar', JSON.stringify(newTotal))
 }
 
@@ -133,6 +132,7 @@ document.querySelector('body').addEventListener('click', function(e) {
   ? showHideList('block')
   : showHideList('none')
 })
+updateCount()
 getProducts()
 // if (products) {
   
