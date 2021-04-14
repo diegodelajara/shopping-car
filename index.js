@@ -46,7 +46,7 @@ function updateShoppingCarProducts(array) {
 }
 
 function updateCount() {
-  const total = getAllShoppingCarProducts().length || 1
+  const total = getAllShoppingCarProducts().length || 0
   document.querySelector('.badge').innerText = total
 }
 
