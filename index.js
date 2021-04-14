@@ -1,23 +1,30 @@
-
-function updateCount() {
-  const total = document.querySelectorAll('.shopping-car-product').length
-  document.querySelector('.badge').innerText = total
+function calculateHeightShoppingCar() {
+  const lengthContainer = getAllShoppingCarProducts().length || 1
+  document.getElementById('products-added').style.height = lengthContainer*60 + 'px'
+}
+function cleanShoppingCar() {
+  const list = document.getElementById('products-added')
+  list.textContent = ''
 }
 
-function showHideList(style) {
-  document.getElementById('products-added').style.display = style
+function drawShoppingCar() {
+  cleanShoppingCar()
+  const shoppingCar = getAllShoppingCarProducts()
+  if (shoppingCar.length) {
+    shoppingCar.forEach(element => {
+      buildShoppingCarItem(element)
+    })
+  } else {
+    buildShoppingCarItem(shoppingCar)
+  }
 }
 
-function removeItem(item) {
-  console.log('Eliminar ', item);
-}
-
-function addItem(item) {
+function buildShoppingCarItem(item) {
   const list    = document.getElementById('products-added')
   const div     = document.createElement('div')
   const span    = document.createElement('span')
   const button  = document.createElement('button')
-  span.innerText = item.name
+  span.innerText = item.title
   button.innerText = '-'
   button.onclick = function(){
     removeItem(item)
@@ -26,16 +33,66 @@ function addItem(item) {
   div.appendChild(span)
   div.appendChild(button)
   list.appendChild(div)
-  updateCount()
+}
+
+function getAllShoppingCarProducts() {
+  return JSON.parse(localStorage.getItem('shoppingCar')) || []
+}
+function updateShoppingCarProducts(array) {
+  array.length
+    ? array.map(item => addItem(item))
+    : cleanShoppingCar()
+ 
+}
+
+function updateCount() {
+  const total = getAllShoppingCarProducts().length
+  document.querySelector('.badge').innerText = total
+}
+
+function showHideList(style) {
+  calculateHeightShoppingCar()
+  drawShoppingCar()
+  document.getElementById('products-added').style.display = style
+}
+
+function removeItem(product) {
+  const total = getAllShoppingCarProducts()
+  const newTotal = total.filter(item => item.id !== product.id)
+  console.log('%c newTotal', 'color:yellow', newTotal)
+  localStorage.setItem('shoppingCar', JSON.stringify(newTotal))
+}
+
+function addItem(item) {
+  let shoppingCar = []
+  const currentListProducts = JSON.parse(localStorage.getItem('shoppingCar'))
+  
+  // Es la primera vez que se agrega un item
+  if (!currentListProducts) {
+    localStorage.setItem('shoppingCar', JSON.stringify(item))
+  } else {
+    if (currentListProducts.length > 1) {
+      currentListProducts.push(item)
+      localStorage.setItem('shoppingCar', JSON.stringify(currentListProducts))
+    } else {
+
+      shoppingCar.push(currentListProducts)
+      shoppingCar.push(item)
+      localStorage.setItem('shoppingCar', JSON.stringify(shoppingCar))
+    }
+  }
+  drawShoppingCar()
+  calculateHeightShoppingCar()
 }
 
 function getProducts() {
-  const url = 'https://my.api.mockaroo.com/products.json?key=66cff0f0';
+  const url = 'https://jsonplaceholder.typicode.com/albums/1/photos?albumId=1'
 
   fetch(url, {
     method: 'GET',
     headers:{
       'Content-Type': 'application/json'
+
     }
   })
   .then(res => res.json())
@@ -45,7 +102,7 @@ function getProducts() {
       const article       = document.createElement('article')
       const imgContainer  = document.createElement('div')
       const img           = document.createElement('img')
-      const name          = document.createElement('span')
+      const title         = document.createElement('span')
       const price         = document.createElement('span')
       const addButton     = document.createElement('button')
       addButton.innerText = 'Añadir al carrtito '
@@ -56,13 +113,13 @@ function getProducts() {
       imgContainer.className = 'img-container'
       imgContainer.setAttribute(
         "style",
-        `background-image:url(${product.image});`
+        `background-image:url(${product.thumbnailUrl});`
       )
-      name.textContent = product.name
+      title.textContent = product.title
       price.textContent = product.price
       imgContainer.appendChild(img)
       article.appendChild(imgContainer)
-      article.appendChild(name)
+      article.appendChild(title)
       article.appendChild(price)
       article.appendChild(addButton)
       parent.appendChild(article)
