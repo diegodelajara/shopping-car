@@ -1,10 +1,27 @@
+header {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;;
+}
+header .badge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #32bbf9;
+  color: white;
+  position: absolute;
+  right: 9px;
+  text-align: center;
+}
+header img {
+  width: 40px;
+}
 section {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   grid-gap: 10px;
 }
-
 
 article {
   max-width: 300px;
@@ -26,6 +43,30 @@ article span:nth-child(3) {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+#products-added {
+  position: absolute;
+  width: 250px;
+  height: 300px;
+  background-color: white;
+  top: 38px;
+  padding: 16px;
+  border-radius: 4px;
+  display: none;
+  box-shadow: 2px 2px 10px #ccc;
+}
+
+#products-added div {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.shopping-car-product {
+  display: flex;
+  justify-content: space-between;
 }
 
 @media screen and (min-width: 600px) {
