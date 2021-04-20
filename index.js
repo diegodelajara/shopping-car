@@ -174,7 +174,7 @@ function addItem(item) {
 function getProducts() {
   const apikey = '743dd67b'
   const page = 1
-  const url = `http://www.omdbapi.com/?apikey=${apikey}&s=movie&page=${page}`
+  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=movie&page=${page}`
   // const url = `https://jsonplaceholder.typicode.com/albums/1/photos?albumId=1`
 
   fetch(url, {
