@@ -1,7 +1,14 @@
+body {
+  font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+
 header {
   display: flex;
   justify-content: flex-end;
-  margin-right: 10px;;
+  height: 50px;
+  width: 97%;
+  position: absolute;
+  background-color: white;
 }
 header .badge {
   width: 20px;
@@ -38,11 +45,43 @@ article span:nth-child(2) {
 article span:nth-child(3) {
   margin: 5px;
 }
+
 .img-container {
+  background-color: #666;
   height: 200px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 46%;
   background-position: center;
+  transition: background-size 100ms ease-in;
+    -moz-transition: background-size 100ms ease-in;
+    -web-kit-transition: background-size 100ms ease-in
+}
+
+
+
+.product:hover .img-container,
+.product:focus .img-container {
+  background-size: 100%;
+}
+
+.product:hover .img-container:after {
+  content: '';
+  width: 300px;
+  height: 200px;
+  background-color:  rgba(52, 73, 94, 0.75);;
+  display: block;
+  position: absolute;
+  opacity: .7;
+}
+
+button {
+  padding: 10px;
+  margin: 7px 5px;
+  background-color: #007bff;
+  border: 0;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #products-added {
@@ -55,18 +94,48 @@ article span:nth-child(3) {
   border-radius: 4px;
   display: none;
   box-shadow: 2px 2px 10px #ccc;
+  flex-flow: wrap;
+  z-index: 9;
 }
 
-#products-added div {
+.shopping-car-product {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin: 5px 0;
-}
-
-.shopping-car-product {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+#products-added {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  flex-flow: column;
+  text-align: center;
+}
+
+.shopping-car-product button {
+  background-color: rgb(186, 73, 53);
+}
+
+#products-added .list {
+  width: 100%;
+}
+
+#product-list {
+  padding-top: 50px;
+}
+#btn-vaciar {
+  width: 100%;
+  display: flex;
+  flex-flow: row-reverse;
+}
+button[disabled='disabled'] {
+  background-color: #accbec;
 }
 
 @media screen and (min-width: 600px) {
