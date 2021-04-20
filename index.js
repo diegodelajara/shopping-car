@@ -32,6 +32,12 @@ function calculateHeightShoppingCar() {
 }
 
 function cleanShoppingCar() {
+  const items = getAllShoppingCarProducts()
+  if (items?.imdbID)
+    disableButton(items, false)
+  else
+    items.map(item => disableButton(item, false))
+    
   localStorage.removeItem('shopping-car')
 }
 
@@ -142,8 +148,12 @@ function showHideList(style) {
 
 function removeItem(product) {
   const total = getAllShoppingCarProducts()
-  const newTotal = total.filter(item => item.imdbID !== product.imdbID)
-  localStorage.setItem('shopping-car', JSON.stringify(newTotal))
+  if (total?.imdbID) {
+    cleanShoppingCar()
+  } else {
+    const newTotal = total.filter(item => item.imdbID !== product.imdbID)
+    localStorage.setItem('shopping-car', JSON.stringify(newTotal))
+  }
   drawShoppingCar()
   updateCount()
   disableButton(product, false)
@@ -174,7 +184,7 @@ function addItem(item) {
 function getProducts() {
   const apikey = '743dd67b'
   const page = 1
-  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=movie&page=${page}`
+  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=avengers&page=${page}`
   // const url = `https://jsonplaceholder.typicode.com/albums/1/photos?albumId=1`
 
   fetch(url, {
@@ -182,8 +192,13 @@ function getProducts() {
   })
   .then(res => res.json())
   .then(function(data) {
-    localStorage.setItem('res', JSON.stringify(data.Search))
-    return buildList()
+    if (data.Response === 'True') {
+      localStorage.setItem('res', JSON.stringify(data.Search))
+      return buildList()
+    } else {
+      localStorage.clear()
+      document.getElementById('product-list').innerHTML = data.Error
+    }
   })
   .catch(error => console.error('Error:', error))
 }
@@ -193,8 +208,8 @@ document.querySelector('body').addEventListener('click', function(e) {
     ? showHideList('block')
     : showHideList('none')
 })
+getProducts()
 calculateHeightShoppingCar()
 drawShoppingCar()
 updateCount()
-getProducts()
   

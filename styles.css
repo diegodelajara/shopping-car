@@ -37,6 +37,8 @@ article {
   grid-template-rows: 1fr 40px auto;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin: 0 auto;
+  min-width: 300px;
 }
 
 article span:nth-child(2) {
@@ -99,7 +101,6 @@ button {
 }
 
 .shopping-car-product {
-  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin: 5px 0;
@@ -116,6 +117,7 @@ button {
   color: #999;
   flex-flow: column;
   text-align: center;
+  padding-bottom: 3rem;
 }
 
 .shopping-car-product button {
@@ -127,6 +129,7 @@ button {
 }
 
 #product-list {
+  height: 100vh;
   padding-top: 50px;
 }
 #btn-vaciar {
